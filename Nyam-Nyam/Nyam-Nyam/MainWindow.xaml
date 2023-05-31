@@ -1,0 +1,43 @@
+﻿<Window x:Class="Nyam_Nyam.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Nyam_Nyam"
+        mc:Ignorable="d"
+        Icon="/Recourses/icon.ico"
+        Title="Recipes" MinHeight="550" MinWidth="1100">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBlock FontSize="16"
+                   Margin="10,5,10,0">
+                <Hyperlink x:Name="HLDishes"
+                           Click="HLDishes_Click">
+                    Dishes
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock FontSize="16"
+                   Margin="10,5,10,0">
+                <Hyperlink x:Name="HLIngredients"
+                           Click="HLIngredients_Click">
+                    Ingredients
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock FontSize="16"
+                   Margin="10,5,10,0">
+                <Hyperlink x:Name="HLOrders"
+                           Click="HLOrders_Click">
+                    Orders
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <Frame x:Name="MainFrame"
+               Grid.Column="1"
+               Grid.Row="1"
+               NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

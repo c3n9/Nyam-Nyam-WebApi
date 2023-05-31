@@ -1,0 +1,109 @@
+﻿<Page x:Class="Nyam_Nyam.Pages.PListOfIngredients"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Nyam_Nyam.Pages"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="PListOfIngredients"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="List of Ingredients"
+                       FontSize="28"
+                       Margin="10,0,0,10" />
+            <TextBlock x:Name="TBFullCost"
+                       Text=""
+                       FontSize="16"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,10,10" />
+        </StackPanel>
+        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  x:Name="LVIngredients"
+                  Width="auto"
+                  d:ItemsSource="{d:SampleData ItemCount=15}"
+                  Grid.Row="1"
+                  BorderThickness="0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="1"
+                            BorderBrush="Black">
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="75" />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,0,10,0"
+                                        Grid.Column="0">
+                                <TextBlock Text="{Binding Name}"
+                                           FontWeight="Bold"
+                                           FontSize="16" />
+                                <TextBlock Text="{Binding PricePerUnit, StringFormat='Price: ${0}'}"
+                                           FontSize="14" />
+                                <TextBlock FontSize="14">
+                                <Hyperlink Foreground="Red"
+                                           x:Name="HLDelete"
+                                           Click="HLDelete_Click">
+                                    Delete
+                                </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center">
+                                <TextBox x:Name="TBСount"
+                                         Text="{Binding AvailableCountInStock, UpdateSourceTrigger=PropertyChanged}"
+                                         VerticalAlignment="Center"
+                                         Width="30"
+                                         Height="30"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalContentAlignment="Center"
+                                         MaxLength="2"
+                                         Margin="0,0,5,0"
+                                         FontSize="14"
+                                         PreviewTextInput="TBСount_PreviewTextInput"
+                                         TextChanged="TBСount_TextChanged" />
+                                <TextBlock Text="unit"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,10,0"
+                                           FontSize="14" />
+                            </StackPanel>
+
+                            <StackPanel VerticalAlignment="Center"
+                                        Grid.Column="2">
+                                <Button x:Name="BPlus"
+                                        Content="+"
+                                        Click="BPlus_Click"
+                                        Width="30"
+                                        Height="30"
+                                        Margin="0,0,0,5"
+                                        FontSize="14" />
+                                <Button x:Name="BMinus"
+                                        Content="-"
+                                        Width="30"
+                                        Height="30"
+                                        Click="BMinus_Click"
+                                        FontSize="14" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+    </Grid>
+</Page>
