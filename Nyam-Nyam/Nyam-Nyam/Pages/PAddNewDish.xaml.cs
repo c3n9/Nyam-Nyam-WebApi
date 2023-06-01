@@ -42,8 +42,8 @@ namespace Nyam_Nyam.Pages
             }
             else
             {
-                //recipeSteps = dish.RecipeSteps.ToList();
-                //DGSteps.ItemsSource = recipeSteps;
+                recipeSteps = dish.RecipeSteps.ToList();
+                DGSteps.ItemsSource = recipeSteps;
             }
         }
         private void BPhoto_Click(object sender, RoutedEventArgs e)

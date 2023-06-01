@@ -144,7 +144,7 @@
                       BorderThickness="0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Steps}"
+                        <TextBlock Text="{Binding ProcessDescription}"
                                    TextWrapping="Wrap"
                                    FontSize="18"/>
                     </DataTemplate>
