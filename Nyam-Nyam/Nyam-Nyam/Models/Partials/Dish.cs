@@ -10,35 +10,12 @@ namespace Nyam_Nyam.Models
 {
     public partial class Dish
     {
-
-        //public BitmapImage BytesToImage
-        //{
-        //    get
-        //    {
-        //        var image = new BitmapImage();
-        //        foreach (var item in Photo)
-        //        {
-        //            using (MemoryStream ms = new MemoryStream(item))
-        //            {
-        //                image = new BitmapImage();
-        //                image.BeginInit();
-        //                image.CacheOption = BitmapCacheOption.OnLoad;
-        //                image.StreamSource = ms;
-        //                image.EndInit();
-
-        //            }
-        //        }
-        //        return image;
-        //    }
-        //}
-
-
-        //public int AllTime
-        //{
-        //    get
-        //    {
-        //        return this.RecipeSteps.Sum(s => s.Time);
-        //    }
-        //}
+        public int alltime
+        {
+            get
+            {
+                return this.RecipeSteps.Sum(s => s.Time);
+            }
+        }
     }
 }

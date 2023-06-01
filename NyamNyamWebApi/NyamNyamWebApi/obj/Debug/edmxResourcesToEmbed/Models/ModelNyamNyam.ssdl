@@ -35,7 +35,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IngredientId" Type="int" Nullable="false" />
+    <Property Name="IngredientId" Type="int" />
     <Property Name="RecipesId" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" />
     <Property Name="Used" Type="bit" />
@@ -72,7 +72,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Ingredient_Recipes_Ingredient">
-    <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+    <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
     <End Role="Ingredient_RecipeSteps" Type="Self.Ingredient_RecipeSteps" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Ingredient">

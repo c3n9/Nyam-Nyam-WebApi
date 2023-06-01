@@ -29,18 +29,18 @@ namespace Nyam_Nyam.Pages
             Refresh();
         }
 
-        private void HLDelete_Click(object sender, RoutedEventArgs e)
+        private async void HLDelete_Click(object sender, RoutedEventArgs e)
         {
             var ingredient = (sender as Hyperlink).DataContext as Ingredient;
-            //App.DB.Ingredient.Remove(ingredient);
-            //App.DB.SaveChanges();
+            await NetManager.Delete<bool>($"api/Ingredient/Delete/{ingredient.Id}");
+            await DBConnection.RefreshEnums();
             Refresh();
         }
         private void Refresh()
         {
-            var ingredients =DBConnection.Ingredients.ToList();
+            var ingredients = DBConnection.Ingredients.ToList();
             double result = 0;
-            foreach(var i in ingredients)
+            foreach (var i in ingredients)
             {
                 double c = double.Parse(i.PricePerUnit) * i.AvailableCountInStock;
                 result += c;
@@ -63,35 +63,36 @@ namespace Nyam_Nyam.Pages
         private void TBСount_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[0-9]");
-            if(!regex.IsMatch(e.Text))
+            if (!regex.IsMatch(e.Text))
             {
                 e.Handled = true;
             }
         }
 
-        private void BPlus_Click(object sender, RoutedEventArgs e)
+        private async void BPlus_Click(object sender, RoutedEventArgs e)
         {
             var ingredient = (sender as Button).DataContext as Ingredient;
             if (ingredient.AvailableCountInStock == 99)
                 return;
             ingredient.AvailableCountInStock += 1;
-            //App.DB.SaveChanges();
+            await NetManager.Put("api/Ingredient/Edit", ingredient);
             Refresh();
         }
 
-        private void BMinus_Click(object sender, RoutedEventArgs e)
+        private async void BMinus_Click(object sender, RoutedEventArgs e)
         {
             var ingredient = (sender as Button).DataContext as Ingredient;
             if (ingredient.AvailableCountInStock == 0)
                 return;
             ingredient.AvailableCountInStock -= 1;
-            //App.DB.SaveChanges();
+            await NetManager.Put("api/Ingredient/Edit", ingredient);
             Refresh();
         }
 
-        private void TBСount_TextChanged(object sender, TextChangedEventArgs e)
+        private async void TBСount_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //App.DB.SaveChanges();
+            var ingredient = (sender as TextBox).DataContext as Ingredient;
+            await NetManager.Put("api/Ingredient/Edit", ingredient);
         }
     }
 }

@@ -42,5 +42,27 @@ namespace NyamNyamWebApi.Controllers
                 })
             }));
         }
+        [HttpPost]
+        [Route("api/Dish/Add")]
+        public IHttpActionResult PostDish(Dish dish)
+        {
+            if(dish != null)
+            {
+                DB.Dish.Add(dish);
+                DB.SaveChanges();
+            }
+            return Ok();
+        }
+        [HttpPut]
+        [Route("api/Dish/Edit")]
+        public IHttpActionResult PutDish(Dish contextDish)
+        {
+            var dish = DB.Dish.FirstOrDefault(d => d.Id == contextDish.Id);
+            if (dish == null)
+                return BadRequest("User not found");
+            if (ModelState.IsValid)
+                DB.Entry(dish).CurrentValues.SetValues(contextDish);
+            return Ok();
+        }
     }
 }

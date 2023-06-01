@@ -15,7 +15,7 @@ namespace NyamNyamWebApi.Models
     public partial class Ingredient_RecipeSteps
     {
         public int Id { get; set; }
-        public int IngredientId { get; set; }
+        public Nullable<int> IngredientId { get; set; }
         public int RecipesId { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<bool> Used { get; set; }

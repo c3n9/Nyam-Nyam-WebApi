@@ -23,5 +23,17 @@ namespace NyamNyamWebApi.Controllers
                 DishId = r.DishId
             }));
         }
+        [HttpPost]
+        [Route("api/RecipeSteps/Add")]
+        public IHttpActionResult PostRecipeSteps(List<RecipeSteps> recipeSteps)
+        {
+            if (recipeSteps.Count != 0)
+            {
+                DB.RecipeSteps.AddRange(recipeSteps);
+                DB.SaveChanges();
+            }
+            return Ok();
+        }
+        
     }
 }

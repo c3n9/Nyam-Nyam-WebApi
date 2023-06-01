@@ -12,7 +12,7 @@ namespace Nyam_Nyam.Models
     {
         public int Id { get; set; }
         public int IngredientId { get; set; }
-        public int RecipesId { get; set; }
+        public Nullable<int> RecipesId { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<bool> Used { get; set; }
         [JsonIgnore]
