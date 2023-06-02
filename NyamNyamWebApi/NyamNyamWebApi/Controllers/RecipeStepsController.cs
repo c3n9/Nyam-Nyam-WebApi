@@ -20,12 +20,12 @@ namespace NyamNyamWebApi.Controllers
                 r.Id,
                 r.ProcessDescription,
                 r.Time,
-                DishId = r.DishId
+                r.DishId
             }));
         }
         [HttpPost]
-        [Route("api/RecipeSteps/Add")]
-        public IHttpActionResult PostRecipeSteps(List<RecipeSteps> recipeSteps)
+        [Route("api(/RecipeSteps/AddRange")]
+        public IHttpActionResult PostRecipeStepsRange(List<RecipeSteps> recipeSteps)
         {
             if (recipeSteps.Count != 0)
             {
@@ -34,6 +34,17 @@ namespace NyamNyamWebApi.Controllers
             }
             return Ok();
         }
-        
+        [HttpPost]
+        [Route("api/RecipeSteps/Add")]
+        public IHttpActionResult PostRecipeSteps(RecipeSteps recipeSteps)
+        {
+            if (recipeSteps != null)
+            {
+                DB.RecipeSteps.Add(recipeSteps);
+                DB.SaveChanges();
+            }
+            return Ok();
+        }
+
     }
 }

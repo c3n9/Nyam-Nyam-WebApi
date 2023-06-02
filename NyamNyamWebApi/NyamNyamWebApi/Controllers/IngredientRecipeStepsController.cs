@@ -24,5 +24,28 @@ namespace NyamNyamWebApi.Controllers
                 i.Used
             }));
         }
+
+        [HttpPost]
+        [Route("api/IngredientRecipeStep/Add")]
+        public IHttpActionResult PostIngredientRecipeStep(Ingredient_RecipeSteps contextIngredientStep)
+        {
+            if (contextIngredientStep != null)
+            {
+                DB.Ingredient_RecipeSteps.Add(contextIngredientStep);
+                DB.SaveChanges();
+            }
+            return Ok();
+        }
+        [HttpPost]
+        [Route("api/IngredientRecipeStep/AddRange")]
+        public IHttpActionResult PostIngredientRecipeStepRange(List<Ingredient_RecipeSteps> contextIngredientStep)
+        {
+            if (contextIngredientStep.Count != 0)
+            {
+                DB.Ingredient_RecipeSteps.AddRange(contextIngredientStep);
+                DB.SaveChanges();
+            }
+            return Ok();
+        }
     }
 }

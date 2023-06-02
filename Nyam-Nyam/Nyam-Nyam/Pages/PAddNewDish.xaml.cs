@@ -48,7 +48,7 @@ namespace Nyam_Nyam.Pages
         }
         private void BPhoto_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog() { Filter = ".png, .jpg, .jpeg|*.png; *.jpg; *.jpeg" };
+            var dialog = new OpenFileDialog() { Filter = ".png, .jpg, .jpeg| *.png; *.jpg; *.jpeg"};
             if (dialog.ShowDialog().GetValueOrDefault()) 
             { 
                 var image = File.ReadAllBytes(dialog.FileName);
@@ -58,10 +58,10 @@ namespace Nyam_Nyam.Pages
             }
         }
 
-        private void BDelete_Click(object sender, RoutedEventArgs e)
+        private async void BDelete_Click(object sender, RoutedEventArgs e)
         {
-            //App.DB.Dish.Remove(contextDish);
-            //App.DB.SaveChanges();
+            await NetManager.Delete<bool>($"api/Dish/Delete/{contextDish.Id}");
+            await DBConnection.RefreshData();
             NavigationService.GoBack();
         }
 
@@ -88,7 +88,7 @@ namespace Nyam_Nyam.Pages
             }
         }
 
-        private void BAddStep_Click(object sender, RoutedEventArgs e)
+        private async void BAddStep_Click(object sender, RoutedEventArgs e)
         {
             var step = new RecipeSteps();
             string error = "";
@@ -105,9 +105,12 @@ namespace Nyam_Nyam.Pages
             step.Time = int.Parse(TBTime.Text);
             if (contextDish.Id != 0)
             {
-                recipeSteps = DBConnection.RecipesSteps.ToList();
-                //App.DB.RecipeSteps.Add(step);
+                recipeSteps = DBConnection.RecipesSteps.Where(r => r.DishId == contextDish.Id).ToList();
                 step.DishId = contextDish.Id;
+                recipeSteps.Add(step);
+                //App.DB.RecipeSteps.Add(step);
+                await NetManager.Post("api/RecipeSteps/Add", step);
+                await DBConnection.RefreshData();
             }
             if (contextDish.Id == 0)
             {
@@ -123,7 +126,7 @@ namespace Nyam_Nyam.Pages
             DGIngredients.ItemsSource = DBConnection.Ingredients_RecipeSteps.Where(x => x.RecipesId == step.Id).ToList();
         }
 
-        private void BAddIngredient_Click(object sender, RoutedEventArgs e)
+        private async void BAddIngredient_Click(object sender, RoutedEventArgs e)
         {
             if(contextDish.Id == 0)
             {
@@ -154,18 +157,21 @@ namespace Nyam_Nyam.Pages
             ingredientSteps.RecipesId = step.Id;
             ingredientSteps.Quantity = int.Parse(TBQuantity.Text);
             ingredientSteps.IngredientId = ingredient.Id;
-            if(contextDish.Id == 0)
+            ingredientSteps.Used = true;
+            if (contextDish.Id == 0)
             {
                 ingredientRecipeSteps.Add(ingredientSteps);
             }
             else
             {
+                await NetManager.Post("api/IngredientRecipeStep/Add", ingredientSteps);
+                await DBConnection.InitializeDBConnection();
                 //App.DB.Ingredient_RecipeSteps.Add(ingredientSteps);
             }
             DGIngredients.ItemsSource = DBConnection.Ingredients_RecipeSteps.Where(x => x.RecipesId == step.Id).ToList();
         }
 
-        private void BSave_Click(object sender, RoutedEventArgs e)
+        private async void BSave_Click(object sender, RoutedEventArgs e)
         {
             string error = "";
             if (String.IsNullOrWhiteSpace(contextDish.Name))
@@ -191,16 +197,23 @@ namespace Nyam_Nyam.Pages
             contextDish.CategoryId = selectedCategory.Id;
             if (contextDish.Id == 0)
             {
+                await NetManager.Post("api/Dish/Add", contextDish);
+                await DBConnection.RefreshData();
                 //App.DB.Dish.Add(contextDish);
                 //App.DB.SaveChanges();
                 foreach (var r in recipeSteps)
                 {
                     r.DishId = contextDish.Id;
                 }
+                await NetManager.Post("api/RecipeSteps/AddRange", recipeSteps);
+                await DBConnection.RefreshData();
+                await NetManager.Post("api/IngredientRecipeStep/AddRange", ingredientRecipeSteps);
+                await DBConnection.RefreshData();
                 //App.DB.RecipeSteps.AddRange(recipeSteps);
                 //App.DB.SaveChanges();
                 //App.DB.Ingredient_RecipeSteps.AddRange(ingredientRecipeSteps);
             }
+            await DBConnection.InitializeDBConnection();
             //App.DB.SaveChanges();
             NavigationService.GoBack();
         }

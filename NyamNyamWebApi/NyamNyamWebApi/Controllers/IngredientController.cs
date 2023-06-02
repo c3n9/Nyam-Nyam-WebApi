@@ -53,7 +53,7 @@ namespace NyamNyamWebApi.Controllers
         {
             var ingredient = DB.Ingredient.FirstOrDefault(i=> i.Id == id);
             if (ingredient == null)
-                return BadRequest("Пользователь не найден");
+                return BadRequest("Invalid ingredient");
             DB.Ingredient.Remove(ingredient);
             DB.SaveChanges();
             return Ok(true);

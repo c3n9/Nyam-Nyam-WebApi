@@ -22,6 +22,7 @@ namespace NyamNyamWebApi.Controllers
                 d.Description,
                 d.FinalPrice,
                 d.BaseServings,
+                d.SourceRecipeLink,
                 d.Photo,
                 CategoryId = d.CategoryId,
                 RecipeSteps = d.RecipeSteps.Select(r => new //Обращаемся к самой таблице, навигационные свойства
@@ -63,6 +64,17 @@ namespace NyamNyamWebApi.Controllers
             if (ModelState.IsValid)
                 DB.Entry(dish).CurrentValues.SetValues(contextDish);
             return Ok();
+        }
+        [HttpDelete]
+        [Route("api/Dish/Delete/{Id}")]
+        public IHttpActionResult DeleteDish(int id)
+        {
+            var dish = DB.Dish.FirstOrDefault(i => i.Id == id);
+            if (dish == null)
+                return BadRequest("Ivalid dish");
+            DB.Dish.Remove(dish);
+            DB.SaveChanges();
+            return Ok(true);
         }
     }
 }

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nyam_Nyam.Models.Partials
+namespace Nyam_Nyam.Models
 {
     public partial class RecipeSteps
     {
-        //public string Steps
-        //{
-        //    get
-        //    {
-        //        return $" - {ProcessDescription}";
-        //    }
-        //}
+        public string Steps
+        {
+            get
+            {
+                return $" - {ProcessDescription}";
+            }
+        }
     }
 }
